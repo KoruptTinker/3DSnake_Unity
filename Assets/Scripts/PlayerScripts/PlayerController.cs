@@ -23,13 +23,30 @@ public class PlayerController : MonoBehaviour
         mainBody=GetComponent<Rigidbody>();
 
         InitSnakeNodes();
-        InitPlayer();        
+        InitPlayer();     
+
+        deltaPosition=new List<Vector3>(){
+            new Vector3(-stepLength,0f), //Left direction
+            new Vector3(0f,stepLength), // Upward direction
+            new Vector3(stepLength,0f), // Right direction 
+            new Vector3(0f,-stepLength) // Downward direction
+
+        };
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        checkMovementFrequency();
+    }
+
+    void FixedUpdate(){
+        if(move){
+            move=false;
+
+            Move();
+        }
     }
 
     void InitSnakeNodes(){
@@ -76,5 +93,58 @@ public class PlayerController : MonoBehaviour
     void SetRandomDirection(){
         int dirRandom=Random.Range(0, (int)PlayerDirection.COUNT);
         direction=(PlayerDirection)dirRandom;
+    }
+
+    void checkMovementFrequency(){
+
+        counter+=Time.deltaTime;
+
+        if(counter>=movementFrequency){
+            counter=0;
+            move=true;
+        }
+
+    }
+
+    void Move(){
+        Vector3 dPosition=deltaPosition[(int)direction];
+        Vector3 parentPosition=headBody.position;
+        Vector3 previousPosition;
+
+        mainBody.position+=dPosition;
+        headBody.position+=dPosition;
+
+        for(int i=1;i<nodes.Count;i++){
+            previousPosition=nodes[i].position;
+            nodes[i].position=parentPosition;
+            parentPosition=previousPosition;
+        }
+
+        if(createNodeAtTail){
+            
+        }
+    }
+
+    public void SetInputDirection(PlayerDirection dir){
+
+        if(dir==PlayerDirection.UP && direction==PlayerDirection.DOWN ||
+        dir==PlayerDirection.DOWN && direction==PlayerDirection.UP||
+        dir==PlayerDirection.LEFT && direction==PlayerDirection.RIGHT||
+        dir==PlayerDirection.RIGHT && direction==PlayerDirection.LEFT){
+
+            return; //Exit the function if opposite directions encountered.
+        }
+
+        direction=dir;
+
+        ForceMove();
+    }
+    
+    void ForceMove() {
+
+        counter=0;
+        move=false;
+        Move();
+        
     }
 }

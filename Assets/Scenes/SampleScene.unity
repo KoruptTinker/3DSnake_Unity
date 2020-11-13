@@ -201,6 +201,18 @@ MonoBehaviour:
   movementFrequency: 0.1
   tailPrefab: {fileID: 1291143953811207049, guid: 0ae47bd7d5c7c024e91732f7affd0626,
     type: 3}
+--- !u!114 &124326458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124326453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af2182bc43e269418d3d2f33228b437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
