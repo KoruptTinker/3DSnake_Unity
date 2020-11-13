@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
             case PlayerDirection.LEFT:
                 nodes[1].position=nodes[0].position+ new Vector3(Metrics.NODE,0f,0f);
                 nodes[2].position=nodes[0].position+ new Vector3(Metrics.NODE*2f,0f,0f);
+                Debug.Log("LEFT");
                 break;
 
             case PlayerDirection.UP:
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
     void SetRandomDirection(){
         int dirRandom=Random.Range(0, (int)PlayerDirection.COUNT);
+        Debug.Log(dirRandom);
         direction=(PlayerDirection)dirRandom;
     }
 
@@ -145,6 +147,6 @@ public class PlayerController : MonoBehaviour
         counter=0;
         move=false;
         Move();
-        
+
     }
 }

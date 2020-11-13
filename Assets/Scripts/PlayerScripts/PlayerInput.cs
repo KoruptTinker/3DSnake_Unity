@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     private int Horizontal=0;
     private int Vertical=0;
     
-    public enum axes{
+    public enum Axis{
         Horizontal,
         Vertical
     }
@@ -30,8 +30,10 @@ public class PlayerInput : MonoBehaviour
     }
 
     void GetKeyboardInput(){
-        Horizontal= (int) Input.GetAxisRaw("Horizontal");
-        Vertical= (int) Input.GetAxisRaw("Vertical");
+        
+        Horizontal=GetAxisRaw(Axis.Horizontal);
+        Vertical=GetAxisRaw(Axis.Vertical);
+
         if(Horizontal !=0){
 
             Vertical=0;
@@ -49,11 +51,50 @@ public class PlayerInput : MonoBehaviour
 
         else if(Horizontal!=0){
 
-            if(Horizontal==1){
-                playerController.SetInputDirection((Horizontal==0) ?
+                playerController.SetInputDirection((Horizontal==1) ?
                                                     PlayerDirection.RIGHT : PlayerDirection.LEFT);
-            }
+
         }
+
+    }
+
+    int GetAxisRaw(Axis axis){
+
+        if(axis==Axis.Horizontal){
+
+            bool left=Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A);
+            bool right=Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D);
+
+            if(left){
+                return -1;
+            }
+
+            if(right){
+                return 1;
+            }
+
+            return 0;
+
+        }
+
+        else if(axis==Axis.Vertical){
+
+            bool up=Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
+            bool down=Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
+
+            if(up){
+                return 1;
+            }
+
+            if(down){
+                return -1;
+            }
+
+            return 0;
+
+        }
+
+        return 0;
 
     }
 }
