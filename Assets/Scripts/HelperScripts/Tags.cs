@@ -7,7 +7,7 @@ public class Tags{
     public static string WALL="Wall";
     public static string FRUIT="Fruit";
     public static string BOMB="Bomb";
-    public static string TAIL="TAIL";
+    public static string TAIL="Tail";
 }
 
 public class Metrics{

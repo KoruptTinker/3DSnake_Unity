@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody headBody;
     private Transform tr;
     private bool createNodeAtTail;
+    private bool isGameOver=false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
             Move();
         }
+
     }
 
     void InitSnakeNodes(){
@@ -93,7 +96,6 @@ public class PlayerController : MonoBehaviour
 
     void SetRandomDirection(){
         int dirRandom=Random.Range(0, (int)PlayerDirection.COUNT);
-        Debug.Log(dirRandom);
         direction=(PlayerDirection)dirRandom;
     }
 
@@ -123,7 +125,12 @@ public class PlayerController : MonoBehaviour
         }
 
         if(createNodeAtTail){
+
+            createNodeAtTail=false;
             
+            GameObject newNode= Instantiate(tailPrefab, nodes[nodes.Count-1].position, Quaternion.identity);
+            newNode.transform.SetParent(transform, true);
+            nodes.Add(newNode.GetComponent<Rigidbody>());
         }
     }
 
@@ -147,6 +154,26 @@ public class PlayerController : MonoBehaviour
         counter=0;
         move=false;
         Move();
+
+    }
+
+    void OnTriggerEnter(Collider target){
+
+        if(target.tag == Tags.FRUIT){
+
+            target.gameObject.SetActive(false);
+            createNodeAtTail=true;
+            GameplayController.instance.IncreaseScore();
+            AudioManager.instance.PlayPickupSound();
+
+        }
+
+        if(target.tag==Tags.WALL || target.tag == Tags.BOMB  || target.tag==Tags.TAIL){
+
+            AudioManager.instance.PlayDeadSound();
+            Time.timeScale=0f;
+
+        }
 
     }
 }
