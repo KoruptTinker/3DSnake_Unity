@@ -8,7 +8,7 @@ public class PlayerInput : MonoBehaviour
     private PlayerController playerController;
     private int Horizontal=0;
     private int Vertical=0;
-    
+    private int isPlaying;
     public enum Axis{
         Horizontal,
         Vertical
